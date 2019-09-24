@@ -1,0 +1,176 @@
+<html>
+
+<body>
+
+<h1 id="myHeader"> Prison Sensors</h1>
+
+
+<form action = "door_server.php"
+   <p> Enter door state: <input type="text" name ="doorState" />
+   <button type = "button"  onclick = "getDoorState(this.form)">
+    Upload to Server
+   </button>
+   <br>
+   <input type = "radio" name = "cell" value = "1" checked> Cell 1 <br>
+   <input type = "radio" name = "cell" value = "2"> Cell 2 <br>
+   <input type = "radio" name = "cell" value = "3"> Cell 3 <br>
+   <input type = "radio" name = "cell" value = "4"> Cell 4 <br>
+   <input type = "radio" name = "cell" value = "5"> Cell 5 <br>
+ </p>
+</form>
+
+<form action = "window_server.php"
+   <p> Enter window state: 
+     <br>
+    <input type="radio" name ="windowState" value = "locked" checked> Locked  <br>
+    <input type="radio" name ="windowState" value = "closed" > Closed & Unlocked  <br> 
+    <input type="radio" name ="windowState" value = "open" > Open <br> <br> 
+   <input type = "radio" name = "cell" value = "1" checked> Cell 1 <br>
+   <input type = "radio" name = "cell" value = "2"> Cell 2 <br>
+   <input type = "radio" name = "cell" value = "3"> Cell 3 <br>
+   <input type = "radio" name = "cell" value = "4"> Cell 4 <br>
+   <input type = "radio" name = "cell" value = "5"> Cell 5 &nbsp &nbsp
+   <button type = "button"  onclick = "getWindowState(this.form)">
+      Upload to Server
+     </button> <br>
+ </p>
+</form>
+
+<form action = "floor_server.php"
+   <p> Enter floor weight: <input type="text" name ="floorState" />
+   <button type = "button"  onclick = "getFloorState(this.form)">
+    Upload to Server
+   </button>
+   <br>
+   <input type = "radio" name = "cell" value = "1" checked> Cell 1 <br>
+   <input type = "radio" name = "cell" value = "2"> Cell 2 <br>
+   <input type = "radio" name = "cell" value = "3"> Cell 3 <br>
+   <input type = "radio" name = "cell" value = "4"> Cell 4 <br>
+   <input type = "radio" name = "cell" value = "5"> Cell 5 <br>
+ </p>
+</form>
+
+<button id = "button b" onclick="randomStateGenerator()">
+  Random door/window state
+</button>
+
+<button id = "button a" onclick="randomWeightGenerator()">
+  Random weight generator
+</button>
+
+<hr>
+<h1>Prison Server Response</h1>
+<p id="doorStatus"> This is the part that is updated </p>
+
+<p id="windowStatus"> This is the part that is updated </p>
+<p id="floorStatus"> This is the part that is updated </p>
+<p id= "randomState"> Testing Random Door/Floor State </p>
+<p id= "randomWeight"> Testing Random Random Weight </p>
+
+<script type = "text/javascript">
+
+function getDoorState(theform) {
+    request = new XMLHttpRequest();
+    //Add if theform.doorState.value matches the three options for states
+    request.open("GET","door_server.php?state="+theform.doorState.value);
+
+    request.onload = function () {
+          door_callback();
+    }
+    request.send();
+} 
+
+function door_callback() {
+
+    if (request.status == 200) {
+	  document.getElementById("doorStatus").innerHTML = request.responseText;
+	  document.getElementById("doorStatus").style.font = "italic bold 20px arial,serif";
+    }
+
+    else if (request.status=404) {
+	  alert("Server was not found: data returned is :\n"+request.responseText);
+    }
+}
+
+function getWindowState(theform) {
+    request = new XMLHttpRequest();
+    request.open("GET","window_server.php?state="+theform.windowState.value+"&cellNum="+theform.cell.value);
+
+    request.onload = function () {
+          window_callback();
+    }
+    request.send();
+} 
+
+function window_callback() {
+
+    if (request.status == 200) {
+      document.getElementById("windowStatus").innerHTML = request.responseText;
+      document.getElementById("windowStatus").style.font = "italic bold 20px arial,serif";
+      }
+
+      else if (request.status=404) {
+      alert("Server was not found: data returned is :\n"+request.responseText);
+      }
+}
+
+function getFloorState(theform) {
+    
+    theform.cell.value
+    request = new XMLHttpRequest();
+    
+    request.open("GET","floor_server.php?inputWeight="+theform.floorState.value+"&cellNum="+theform.cell.value);
+
+    //request.open("GET","floor_server.php?cellNum="+theform.cell.value);
+    
+    request.onload = function () {
+          floor_callback();
+   }
+    request.send();
+  
+} 
+
+
+
+function floor_callback() {
+
+    if (request.status == 200) {
+      document.getElementById("floorStatus").innerHTML = request.responseText;
+      document.getElementById("floorStatus").style.font = "italic bold 20px arial,serif";
+      }
+
+    else if (request.status=404) {
+      alert("Server was not found: data returned is :\n"+request.responseText);
+    }
+}
+
+function randomStateGenerator(){
+
+    var state_num = Math.floor((Math.random()*3)+1) 
+    var state_string;
+    switch (state_num) {
+    case 1:
+        state_string = "open";
+        break;
+    case 2:
+        state_string = "locked";
+        break;
+    case 3:
+        state_string = "closed"
+    }
+   document.getElementById("randomState").innerHTML = "The state is: " + state_string;
+}
+
+
+function randomWeightGenerator() {
+    var precision = 100; // 2 decimals
+    var random_num = Math.floor(Math.random() * (400 * precision - 1 * precision) + 0 * precision) / (1*precision);
+    document.getElementById("randomWeight").innerHTML = random_num;
+}
+
+
+</script>
+
+
+</body>
+</html>
