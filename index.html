@@ -2,59 +2,67 @@
 
 <body>
 
-<h1 id="myHeader"> Prison Sensors</h1>
+<h1 id="my_header"> Prison Sensors</h1>
 
 
-<form action = "door_server.php"
-   <p> Enter door state: <input type="text" name ="doorState" />
-   <button type = "button"  onclick = "getDoorState(this.form)">
-    Upload to Server
-   </button>
-   <br>
-   <input type = "radio" name = "cell" value = "1" checked> Cell 1 <br>
-   <input type = "radio" name = "cell" value = "2"> Cell 2 <br>
-   <input type = "radio" name = "cell" value = "3"> Cell 3 <br>
-   <input type = "radio" name = "cell" value = "4"> Cell 4 <br>
-   <input type = "radio" name = "cell" value = "5"> Cell 5 <br>
- </p>
-</form>
-
-<form action = "window_server.php"
-   <p> Enter window state: 
-     <br>
-    <input type="radio" name ="windowState" value = "locked" checked> Locked  <br>
-    <input type="radio" name ="windowState" value = "closed" > Closed & Unlocked  <br> 
-    <input type="radio" name ="windowState" value = "open" > Open <br> <br> 
-   <input type = "radio" name = "cell" value = "1" checked> Cell 1 <br>
-   <input type = "radio" name = "cell" value = "2"> Cell 2 <br>
-   <input type = "radio" name = "cell" value = "3"> Cell 3 <br>
-   <input type = "radio" name = "cell" value = "4"> Cell 4 <br>
-   <input type = "radio" name = "cell" value = "5"> Cell 5 &nbsp &nbsp
-   <button type = "button"  onclick = "getWindowState(this.form)">
+<form action = "door_server.php" 
+  method = "get">
+  Select Time 
+  <input type = "time" name = "current_time" value = "current_time" >
+  <br><br>
+  Select Door State
+  <br>
+  <input type="radio" name ="doorState" value = "locked" checked> Locked  <br>
+  <input type="radio" name ="doorState" value = "closed" > Closed & Unlocked  <br> 
+  <input type="radio" name ="doorState" value = "open" > Open <br> <br> 
+  <br>
+  <input type = "radio" name = "cell" value = "1" checked> Cell 1 <br>
+  <input type = "radio" name = "cell" value = "2"> Cell 2 <br>
+  <input type = "radio" name = "cell" value = "3"> Cell 3 <br>
+  <input type = "radio" name = "cell" value = "4"> Cell 4 <br>
+  <input type = "radio" name = "cell" value = "5"> Cell 5 &nbsp &nbsp
+  <button type = "button"  onclick = "send_door_state(this.form)">
       Upload to Server
-     </button> <br>
- </p>
+  </button>
 </form>
 
-<form action = "floor_server.php"
-   <p> Enter floor weight: <input type="text" name ="floorState" />
-   <button type = "button"  onclick = "getFloorState(this.form)">
-    Upload to Server
-   </button>
-   <br>
-   <input type = "radio" name = "cell" value = "1" checked> Cell 1 <br>
-   <input type = "radio" name = "cell" value = "2"> Cell 2 <br>
-   <input type = "radio" name = "cell" value = "3"> Cell 3 <br>
-   <input type = "radio" name = "cell" value = "4"> Cell 4 <br>
-   <input type = "radio" name = "cell" value = "5"> Cell 5 <br>
- </p>
+
+<form action = "window_server.php">
+  <br>
+  Select window state: 
+  <br>
+  <input type="radio" name ="windowState" value = "locked" checked> Locked  <br>
+  <input type="radio" name ="windowState" value = "closed" > Closed & Unlocked  <br> 
+  <input type="radio" name ="windowState" value = "open" > Open <br> <br> 
+  <input type = "radio" name = "cell" value = "1" checked> Cell 1 <br>
+  <input type = "radio" name = "cell" value = "2"> Cell 2 <br>
+  <input type = "radio" name = "cell" value = "3"> Cell 3 <br>
+  <input type = "radio" name = "cell" value = "4"> Cell 4 <br>
+  <input type = "radio" name = "cell" value = "5"> Cell 5 &nbsp &nbsp
+  <button type = "button"  onclick = "send_window_state(this.form)">
+      Upload to Server
+  </button> <br>
 </form>
 
-<button id = "button b" onclick="randomStateGenerator()">
+<form action = "floor_server.php">
+   <br><br>
+   Enter floor weight: <input type="text" name ="floorState" />
+   <br><br>
+  <input type = "radio" name = "cell" value = "1" checked> Cell 1 <br>
+  <input type = "radio" name = "cell" value = "2"> Cell 2 <br>
+  <input type = "radio" name = "cell" value = "3"> Cell 3 <br>
+  <input type = "radio" name = "cell" value = "4"> Cell 4 <br>
+  <input type = "radio" name = "cell" value = "5"> Cell 5 &nbsp &nbsp
+  <button type = "button"  onclick = "send_floor_state(this.form)">
+      Upload to Server
+  </button> <br>
+</form>
+
+<button id = "button b" onclick="random_state_generator()">
   Random door/window state
 </button>
 
-<button id = "button a" onclick="randomWeightGenerator()">
+<button id = "button a" onclick="random_weight_generator()">
   Random weight generator
 </button>
 
@@ -69,10 +77,10 @@
 
 <script type = "text/javascript">
 
-function getDoorState(theform) {
+function send_door_state(theform) {
     request = new XMLHttpRequest();
     //Add if theform.doorState.value matches the three options for states
-    request.open("GET","door_server.php?state="+theform.doorState.value);
+    request.open("GET","door_server.php?state="+theform.doorState.value+"&time="+theform.current_time.value);
 
     request.onload = function () {
           door_callback();
@@ -92,7 +100,7 @@ function door_callback() {
     }
 }
 
-function getWindowState(theform) {
+function send_window_state(theform) {
     request = new XMLHttpRequest();
     request.open("GET","window_server.php?state="+theform.windowState.value+"&cellNum="+theform.cell.value);
 
@@ -114,23 +122,24 @@ function window_callback() {
       }
 }
 
-function getFloorState(theform) {
+function send_floor_state(theform) {
     
-    theform.cell.value
+    var weight = parseFloat(theform.floorState.value);
+
+   if(weight >= 0.00 && weight < 401.00)
+    {
     request = new XMLHttpRequest();
-    
-    request.open("GET","floor_server.php?inputWeight="+theform.floorState.value+"&cellNum="+theform.cell.value);
-
-    //request.open("GET","floor_server.php?cellNum="+theform.cell.value);
-    
+    request.open("GET","floor_server.php?inputWeight="+theform.floorState.value+"&cellNum="+theform.cell.value);    
+   
     request.onload = function () {
-          floor_callback();
-   }
-    request.send();
-  
+      floor_callback(); 
+      }
+      request.send();
+    }
+  else{
+    alert("The weight entered is not within the specified range");
+  }
 } 
-
-
 
 function floor_callback() {
 
@@ -144,7 +153,7 @@ function floor_callback() {
     }
 }
 
-function randomStateGenerator(){
+function random_state_generator(){
 
     var state_num = Math.floor((Math.random()*3)+1) 
     var state_string;
@@ -162,7 +171,7 @@ function randomStateGenerator(){
 }
 
 
-function randomWeightGenerator() {
+function random_weight_generator() {
     var precision = 100; // 2 decimals
     var random_num = Math.floor(Math.random() * (400 * precision - 1 * precision) + 0 * precision) / (1*precision);
     document.getElementById("randomWeight").innerHTML = random_num;

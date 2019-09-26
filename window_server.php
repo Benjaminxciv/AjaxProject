@@ -7,5 +7,5 @@
  
   $windows[$cellNum] = $state;
 
-  print "<p>The window state: $windows[$cellNum]</p> ";
-?>
+  print "<p>The window in cell [" .$cellNum. "] state: $windows[$cellNum]</p> ";
+?> 

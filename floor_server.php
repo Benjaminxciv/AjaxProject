@@ -1,3 +1,5 @@
+<html>
+<body>
 <?php 
   
   $inputWeight = $_REQUEST["inputWeight"];
@@ -10,13 +12,13 @@
  $difference = $f_inputWeight - $weights[$cellNum];
   
  if($difference > 2){
-   $state = "ALARM";
+   $alarm_state = "ALARM";
  }
+ else $alarm_state = "All good";
+  
 
-  else {
-    $state = "All good";
-  }
-
-    print "<p>The floor state: $state</p> ";
-
+    print "<p>The floor state: $alarm_state</p> ";
+    print "Current weight: $f_inputWeight"
 ?>
+</body>
+</html>
