@@ -49,23 +49,29 @@
       <script type = "text/javascript">
 
         function send_door_state(theform) {
+            
             request = new XMLHttpRequest();
-            //Add if theform.doorState.value matches the three options for states
-            request.open("GET","door_server.php?state="+theform.doorState.value+"&time="+theform.current_time.value);
-        
+            request.open("GET","door_server.php?state="+theform.doorState.value+"&time="+theform.current_time.value+"&cell_num="+theform.cell.value);
+            
             request.onload = function () {
                   door_callback();
             }
+
             request.send();
         } 
         
         function door_callback() {
-        
+            
             if (request.status == 200) {
-              document.getElementById("doorStatus").innerHTML = request.responseText;
-              document.getElementById("doorStatus").style.font = "italic bold 20px arial,serif";
+          
+                if(request.responseText.trim() == 'on')
+                {
+                    alert("Warning. The Alarm is on for");
+                }
+              document.getElementById("doorStatus1").innerHTML = "The state of the alarm in the cell is"+request.responseText;
+              document.getElementById("doorStatus1").style.font = "italic bold 20px arial,serif";
             }
-        
+
             else if (request.status=404) {
               alert("Server was not found: data returned is :\n"+request.responseText);
             }

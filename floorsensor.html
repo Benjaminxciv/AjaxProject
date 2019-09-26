@@ -40,30 +40,25 @@
          <p id="floorStatus5"> This is the part that is updated </p>
          <script>
          
-         function send_floor_state(theform) {
+        function send_floor_state(theform) {
+            var weight = parseFloat(theform.floorState.value);
+            if(weight >= 0.00 && weight < 401.00){
+                request = new XMLHttpRequest();
+                request.open("GET","floor_server.php?inputWeight="+theform.floorState.value+"&cellNum="+theform.cell.value);    
     
-        var weight = parseFloat(theform.floorState.value);
-
-        if(weight >= 0.00 && weight < 401.00)
-        {
-            request = new XMLHttpRequest();
-            request.open("GET","floor_server.php?inputWeight="+theform.floorState.value+"&cellNum="+theform.cell.value);    
-   
-            request.onload = function () {
-                floor_callback(); 
-            }
-        request.send();
-        }
-        else{
-            alert("The weight entered is not within the specified range");
-            }     
+                request.onload = function () {
+                    floor_callback(); 
+                }
+            request.send();
+            }else alert("The weight entered is not within the specified range");
+                     
         } 
 
         function floor_callback() {
 
             if (request.status == 200) {
-                document.getElementById("floorStatus").innerHTML = request.responseText;
-                document.getElementById("floorStatus").style.font = "italic bold 20px arial,serif";
+                document.getElementById("floorStatus1").innerHTML = request.responseText;
+                document.getElementById("floorStatus1").style.font = "italic bold 20px arial,serif";
             }
 
             else if (request.status=404) {

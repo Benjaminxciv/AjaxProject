@@ -1,0 +1,16 @@
+Cell1
+closed
+8:00
+Cell2
+closed
+9:00
+Cell3
+closed
+10:00
+Cell4
+closed
+11:00
+cell5
+12:00
+open
+
