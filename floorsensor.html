@@ -1,0 +1,78 @@
+<html>
+
+    <head>
+
+        <title> Very Scary Prison Inc.</title>
+        <meta charset = "UTF-8">
+        <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+
+    </head>
+    <body>
+
+        <div><h1 class='heading'>Very Scary Prison Inc. Security Center</h1></div>
+        <hr>
+        <nav><b>
+            <a href="index1.html">Home</a>&nbsp;
+            <a href="doorsensor.html">Door Monitor</a>&nbsp;
+            <a href="floorsensor.html">Floor Monitor</a>&nbsp;
+            <a href="windowsensor.html">Window Monitor</a>&nbsp;
+        </b></nav>
+        <hr>
+        
+        <form action = "floor_server.php">
+            <br><br>
+            Enter floor weight: <input type="text" name ="floorState" />
+            <br><br>
+           <input type = "radio" name = "cell" value = "1" checked> Cell 1 <br>
+           <input type = "radio" name = "cell" value = "2"> Cell 2 <br>
+           <input type = "radio" name = "cell" value = "3"> Cell 3 <br>
+           <input type = "radio" name = "cell" value = "4"> Cell 4 <br>
+           <input type = "radio" name = "cell" value = "5"> Cell 5 &nbsp &nbsp
+           <button type = "button"  onclick = "send_floor_state(this.form)">
+               Upload to Server
+           </button> <br>
+         </form>
+         <br><br><br><hr>
+         <p id="floorStatus1"> This is the part that is updated </p>
+         <p id="floorStatus2"> This is the part that is updated </p>
+         <p id="floorStatus3"> This is the part that is updated </p>
+         <p id="floorStatus4"> This is the part that is updated </p>
+         <p id="floorStatus5"> This is the part that is updated </p>
+         <script>
+         
+         function send_floor_state(theform) {
+    
+        var weight = parseFloat(theform.floorState.value);
+
+        if(weight >= 0.00 && weight < 401.00)
+        {
+            request = new XMLHttpRequest();
+            request.open("GET","floor_server.php?inputWeight="+theform.floorState.value+"&cellNum="+theform.cell.value);    
+   
+            request.onload = function () {
+                floor_callback(); 
+            }
+        request.send();
+        }
+        else{
+            alert("The weight entered is not within the specified range");
+            }     
+        } 
+
+        function floor_callback() {
+
+            if (request.status == 200) {
+                document.getElementById("floorStatus").innerHTML = request.responseText;
+                document.getElementById("floorStatus").style.font = "italic bold 20px arial,serif";
+            }
+
+            else if (request.status=404) {
+                alert("Server was not found: data returned is :\n"+request.responseText);
+            }
+        }
+
+         </script>
+
+    </body>
+
+</html>

@@ -1,0 +1,79 @@
+<html>
+
+    <head>
+
+        <title> Very Scary Prison Inc.</title>
+        <meta charset = "UTF-8">
+        <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+
+    </head>
+    <body>
+
+        <div><h1 class='heading'>Very Scary Prison Inc. Security Center</h1></div>
+        <hr>
+        <nav><b>
+            <a href="index1.html">Home</a>&nbsp;
+            <a href="doorsensor.html">Door Monitor</a>&nbsp;
+            <a href="floorsensor.html">Floor Monitor</a>&nbsp;
+            <a href="windowsensor.html">Window Monitor</a>&nbsp;
+        </b></nav>
+        <hr>
+
+        <form action = "door_server.php" 
+        method = "get">
+        Select Time 
+        <input type = "time" name = "current_time" value = "current_time" >
+        <br><br>
+        Select Door State
+        <br>
+        <input type="radio" name ="doorState" value = "locked" checked> Locked  <br>
+        <input type="radio" name ="doorState" value = "closed" > Closed & Unlocked  <br> 
+        <input type="radio" name ="doorState" value = "open" > Open <br> <br> 
+        <br>
+        <input type = "radio" name = "cell" value = "1" checked> Cell 1 <br>
+        <input type = "radio" name = "cell" value = "2"> Cell 2 <br>
+        <input type = "radio" name = "cell" value = "3"> Cell 3 <br>
+        <input type = "radio" name = "cell" value = "4"> Cell 4 <br>
+        <input type = "radio" name = "cell" value = "5"> Cell 5 &nbsp &nbsp
+        <button type = "button"  onclick = "send_door_state(this.form)">
+            Upload to Server
+        </button>
+      </form>
+      <br><br><br><hr>
+      <p id="doorStatus1"> This is the part that is updated </p>
+      <p id="doorStatus2"> This is the part that is updated </p>
+      <p id="doorStatus3"> This is the part that is updated </p>
+      <p id="doorStatus4"> This is the part that is updated </p>
+      <p id="doorStatus5"> This is the part that is updated </p>
+
+      <script type = "text/javascript">
+
+        function send_door_state(theform) {
+            request = new XMLHttpRequest();
+            //Add if theform.doorState.value matches the three options for states
+            request.open("GET","door_server.php?state="+theform.doorState.value+"&time="+theform.current_time.value);
+        
+            request.onload = function () {
+                  door_callback();
+            }
+            request.send();
+        } 
+        
+        function door_callback() {
+        
+            if (request.status == 200) {
+              document.getElementById("doorStatus").innerHTML = request.responseText;
+              document.getElementById("doorStatus").style.font = "italic bold 20px arial,serif";
+            }
+        
+            else if (request.status=404) {
+              alert("Server was not found: data returned is :\n"+request.responseText);
+            }
+        }
+        </script>
+
+    </body>
+
+    
+
+</html>

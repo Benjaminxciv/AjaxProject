@@ -1,0 +1,73 @@
+<html>
+
+    <head>
+
+        <title> Very Scary Prison Inc.</title>
+        <meta charset = "UTF-8">
+        <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+
+    </head>
+    <body>
+
+        <div><h1 class='heading'>Very Scary Prison Inc. Security Center</h1></div>
+        <hr>
+        <nav><b>
+            <a href="index1.html">Home</a>&nbsp;
+            <a href="doorsensor.html">Door Monitor</a>&nbsp;
+            <a href="floorsensor.html">Floor Monitor</a>&nbsp;
+            <a href="windowsensor.html">Window Monitor</a>&nbsp;
+        </b></nav>
+        <hr>
+
+        <form action = "window_server.php">
+            <br>
+            Select window state: 
+            <br>
+            <input type="radio" name ="windowState" value = "locked" checked> Locked  <br>
+            <input type="radio" name ="windowState" value = "closed" > Closed & Unlocked  <br> 
+            <input type="radio" name ="windowState" value = "open" > Open <br> <br> 
+            <input type = "radio" name = "cell" value = "1" checked> Cell 1 <br>
+            <input type = "radio" name = "cell" value = "2"> Cell 2 <br>
+            <input type = "radio" name = "cell" value = "3"> Cell 3 <br>
+            <input type = "radio" name = "cell" value = "4"> Cell 4 <br>
+            <input type = "radio" name = "cell" value = "5"> Cell 5 &nbsp &nbsp
+            <button type = "button"  onclick = "send_window_state(this.form)">
+                Upload to Server
+            </button> <br>
+          </form>
+          <br><br><br><hr>
+          <p id="windowStatus1"> This is the part that is updated </p>
+          <p id="windowStatus2"> This is the part that is updated </p>
+          <p id="windowStatus3"> This is the part that is updated </p>
+          <p id="windowStatus4"> This is the part that is updated </p>
+          <p id="windowStatus5"> This is the part that is updated </p>
+        <script>
+        
+            function send_window_state(theform) {
+                request = new XMLHttpRequest();
+                request.open("GET","window_server.php?state="+theform.windowState.value+"&cellNum="+theform.cell.value);
+
+                request.onload = function () {
+                    window_callback();
+                }
+            request.send();
+        } 
+
+            function window_callback() {
+
+                if (request.status == 200) {
+                document.getElementById("windowStatus").innerHTML = request.responseText;
+                document.getElementById("windowStatus").style.font = "italic bold 20px arial,serif";
+            }
+
+            else if (request.status=404) {
+                alert("Server was not found: data returned is :\n"+request.responseText);
+            }
+        }
+
+        </script>
+        
+
+    </body>
+
+</html>
