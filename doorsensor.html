@@ -22,7 +22,7 @@
         <form action = "door_server.php" 
         method = "get">
         Select Time 
-        <input type = "time" name = "current_time" value = "current_time" >
+        <input type = "time" name = "current_time" >
         <br><br>
         Select Door State
         <br>
@@ -46,7 +46,7 @@
       <p id="doorStatus4"> This is the part that is updated </p>
       <p id="doorStatus5"> This is the part that is updated </p>
 
-      <script type = "text/javascript">
+      <script type = "text/javascript"> 
 
         function send_door_state(theform) {
             
@@ -61,13 +61,13 @@
         } 
         
         function door_callback() {
-            
             if (request.status == 200) {
-          
+               
                 if(request.responseText.trim() == 'on')
-                {
+                    {
                     alert("Warning. The Alarm is on for");
-                }
+                     }
+
               document.getElementById("doorStatus1").innerHTML = request.responseText;
               document.getElementById("doorStatus1").style.font = "italic bold 20px arial,serif";
             }

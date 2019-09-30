@@ -10,7 +10,7 @@ closed
 Cell4
 closed
 11:00
-cell5
+Cell5
 12:00
 open
 
