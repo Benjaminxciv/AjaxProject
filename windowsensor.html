@@ -56,8 +56,14 @@
             function window_callback() {
 
                 if (request.status == 200) {
-                document.getElementById("windowStatus").innerHTML = request.responseText;
-                document.getElementById("windowStatus").style.font = "italic bold 20px arial,serif";
+                    
+                    if(request.responseText.trim() == 'on')
+                    {
+                    alert("Warning. The Alarm is on for");
+                     }
+                     
+                document.getElementById("windowStatus1").innerHTML = request.responseText;
+                document.getElementById("windowStatus1").style.font = "italic bold 20px arial,serif";
             }
 
             else if (request.status=404) {

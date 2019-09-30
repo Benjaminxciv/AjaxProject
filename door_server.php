@@ -1,10 +1,13 @@
-
+<html>
+  <body>
 <?php 
 
 $state         = $_REQUEST["state"];
 $cell_num      = $_REQUEST["cell_num"];
 $time          = strtotime($_REQUEST['time']);
-  
+
+$linestop = (($i_cell_num * 3)+1);
+
 if($time)
 {
   $curr_time = date("H:i", $time);
@@ -18,9 +21,7 @@ if($state === "closed")
 {
   $myfile = fopen("doorstate.txt", "r") or die("Unable to open file!");
   
-  $i_cell_num = ((int)$cell_num - 1);
-  $linestop = (($i_cell_num * 3)+1);
-  
+  $i_cell_num = ((int)$cell_num - 1);  
   for($x = 0; $x < $linestop; $x++)
   {
     fgets($myfile);
@@ -44,6 +45,7 @@ if($state === "closed")
         $alarm_state = "on";
       }
     }
+   fclose($myfile); 
 }
 
 //Start of handling times doors are allowed to be open ..Only needed if state is open - replace with function if time
@@ -70,6 +72,20 @@ if($state == "open")
     }
   }
 }
-  echo $alarm_state;
+
+  $fp = fopen("doorstate.txt", "r+") or die("Unable to open file!");
+  
+  for($x = 0; $x < $linestop; $x++) 
+  {
+    fgets($myfile);
+  }
+
+  fwrite($fp,"test");  
+
+  fclose($fp);
+
+  print $alarm_state;
  //print "<br> The door is: $state <br>";
 ?>
+</body>
+</html>

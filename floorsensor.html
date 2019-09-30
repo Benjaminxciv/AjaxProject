@@ -57,6 +57,8 @@
         function floor_callback() {
 
             if (request.status == 200) {
+                
+                //if(request.responseText.trim())
                 document.getElementById("floorStatus1").innerHTML = request.responseText;
                 document.getElementById("floorStatus1").style.font = "italic bold 20px arial,serif";
             }
