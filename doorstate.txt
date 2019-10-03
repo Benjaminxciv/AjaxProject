@@ -1,19 +1,17 @@
-
-open__
-00:50
-0:30
+Cell1
+closed
+08:00
 Cell2
 closed
 09:00
+Cell3
 closed
-00:45
-locked
-
-ll4
+10:00
+Cell4
 closed
 11:00
 Cell5
 closed
-00:00
+12:00
 
 

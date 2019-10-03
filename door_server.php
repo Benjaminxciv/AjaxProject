@@ -81,4 +81,8 @@
     //Return this status message to client
     print $alarm_state.$state;
     
+
+    $log = fopen("doorlog.txt", "a") or die("Unable to open file!"); 
+    fwrite($log,"Cell ".$cell_num." - ".$curr_time." - ".$state."- Alarm State: ".$alarm_state."\n");
+    fclose($log);
 ?>
