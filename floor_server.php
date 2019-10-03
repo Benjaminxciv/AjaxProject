@@ -1,24 +1,23 @@
-<html>
-<body>
+
 <?php 
   
-  $inputWeight = $_REQUEST["inputWeight"];
-  $f_inputWeight = (float) $inputWeight;
-
+  $input_weight = $_REQUEST["input_weight"];
+  //echo $input_weight;
+  $f_input_weight = (float) $input_weight;
+  
   $cellNum = $_REQUEST["cellNum"];
 
- $weights = array("1" => 200, "2" => 300, "3"=> 400,"4" => 500, "5" => 200);
+ $weights = array("1" => 200, "2" => 300, "3"=> 150,"4" => 180, "5" => 220);
 
- $difference = $f_inputWeight - $weights[$cellNum];
-  
+ $difference = $f_input_weight - $weights[$cellNum];
+ 
  if($difference > 2){
-   $alarm_state = "ALARM";
+   $alarm_state = "on";
  }
- else $alarm_state = "All good";
+ else $alarm_state = "off";
   
 
-    print "<p>The floor state: $alarm_state</p> ";
-    print "Current weight: $f_inputWeight"
+ print $alarm_state;
+    // print "<p>The floor state: $alarm_state</p> ";
+    // print "Current weight: $f_inputWeight"
 ?>
-</body>
-</html>

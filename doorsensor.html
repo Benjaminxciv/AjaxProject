@@ -12,13 +12,14 @@
         <div><h1 class='heading'>Very Scary Prison Inc. Security Center</h1></div>
         <hr>
         <nav><b>
-            <a href="index1.html">Home</a>&nbsp;
+            <a href="index.html">Home</a>&nbsp;
             <a href="doorsensor.html">Door Monitor</a>&nbsp;
             <a href="floorsensor.html">Floor Monitor</a>&nbsp;
             <a href="windowsensor.html">Window Monitor</a>&nbsp;
         </b></nav>
         <hr>
 
+        <h2> Door Sensor Interface </h2>
         <form action = "door_server.php" 
         method = "get">
         Select Time 
@@ -26,19 +27,32 @@
         <br><br>
         Select Door State
         <br>
-        <input type="radio" name ="doorState" value = "locked" checked> Locked  <br>
+        <input type="radio" name ="doorState" value = "locked"> Locked  <br>
         <input type="radio" name ="doorState" value = "closed" > Closed & Unlocked  <br> 
-        <input type="radio" name ="doorState" value = "open" > Open <br> <br> 
+        <input type="radio" name ="doorState" value = "open__" > Open 
+        <br>
+        <br>
+        <button type = "button" onclick="random_state()">
+                Random Door State
+        </button> 
+        <br>
+        <br>
+        <hr> 
+        <br>
+        Select Prison Cell
         <br>
         <input type = "radio" name = "cell" value = "1" checked> Cell 1 <br>
         <input type = "radio" name = "cell" value = "2"> Cell 2 <br>
         <input type = "radio" name = "cell" value = "3"> Cell 3 <br>
         <input type = "radio" name = "cell" value = "4"> Cell 4 <br>
-        <input type = "radio" name = "cell" value = "5"> Cell 5 &nbsp &nbsp
+        <input type = "radio" name = "cell" value = "5"> Cell 5
+        <br><br>
         <button type = "button"  onclick = "send_door_state(this.form)">
             Upload to Server
         </button>
       </form>
+
+          
       <br><br><br><hr>
       <p id="doorStatus1"> This is the part that is updated </p>
       <p id="doorStatus2"> This is the part that is updated </p>
@@ -48,24 +62,27 @@
 
       <script type = "text/javascript"> 
 
-        function send_door_state(theform) {
-            
+        function send_door_state(theform) 
+        {    
             request = new XMLHttpRequest();
             request.open("GET","door_server.php?state="+theform.doorState.value+"&time="+theform.current_time.value+"&cell_num="+theform.cell.value);
             
-            request.onload = function () {
-                  door_callback();
+            request.onload = function () 
+            {
+                door_callback(theform);
             }
 
             request.send();
         } 
         
-        function door_callback() {
-            if (request.status == 200) {
+        function door_callback(theform)
+        {
+            if (request.status == 200)
+            {
                
                 if(request.responseText.trim() == 'on')
                     {
-                    alert("Warning. The Alarm is on for");
+                    alert("Warning. The Alarm is on in Cell "+theform.cell.value);
                      }
 
               document.getElementById("doorStatus1").innerHTML = request.responseText;
@@ -76,6 +93,17 @@
               alert("Server was not found: data returned is :\n"+request.responseText);
             }
         }
+
+       
+        function random_state()
+        {
+            var array    = document.getElementsByName('doorState');
+            var rand_num = Math.floor((Math.random()*3));
+            array[rand_num].checked = true;
+        }
+
+
+
         </script>
 
     </body>

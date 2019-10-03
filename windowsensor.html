@@ -12,27 +12,36 @@
         <div><h1 class='heading'>Very Scary Prison Inc. Security Center</h1></div>
         <hr>
         <nav><b>
-            <a href="index1.html">Home</a>&nbsp;
+            <a href="index.html">Home</a>&nbsp;
             <a href="doorsensor.html">Door Monitor</a>&nbsp;
             <a href="floorsensor.html">Floor Monitor</a>&nbsp;
             <a href="windowsensor.html">Window Monitor</a>&nbsp;
         </b></nav>
         <hr>
 
+        <h2> Window Sensor Interface </h2>
         <form action = "window_server.php">
-            <br>
-            Select window state: 
+            Select Window State 
             <br>
             <input type="radio" name ="windowState" value = "locked" checked> Locked  <br>
             <input type="radio" name ="windowState" value = "closed" > Closed & Unlocked  <br> 
             <input type="radio" name ="windowState" value = "open" > Open <br> <br> 
+            <button type = "button" onclick="random_state()">
+                    Random Windows State
+            </button>
+            <br><br> 
+            <hr>
+            <br>            
+            Select Prison Cell
+            <br>
             <input type = "radio" name = "cell" value = "1" checked> Cell 1 <br>
             <input type = "radio" name = "cell" value = "2"> Cell 2 <br>
             <input type = "radio" name = "cell" value = "3"> Cell 3 <br>
             <input type = "radio" name = "cell" value = "4"> Cell 4 <br>
-            <input type = "radio" name = "cell" value = "5"> Cell 5 &nbsp &nbsp
+            <input type = "radio" name = "cell" value = "5"> Cell 5
+            <br><br>
             <button type = "button"  onclick = "send_window_state(this.form)">
-                Upload to Server
+                        Upload to Server
             </button> <br>
           </form>
           <br><br><br><hr>
@@ -48,18 +57,17 @@
                 request.open("GET","window_server.php?state="+theform.windowState.value+"&cellNum="+theform.cell.value);
 
                 request.onload = function () {
-                    window_callback();
+                    window_callback(theform);
                 }
             request.send();
         } 
 
-            function window_callback() {
-
+            function window_callback(theform) {
+                
                 if (request.status == 200) {
-                    
                     if(request.responseText.trim() == 'on')
                     {
-                    alert("Warning. The Alarm is on for");
+                    alert("Warning. The Alarm is on in Cell "+theform.cell.value);
                      }
                      
                 document.getElementById("windowStatus1").innerHTML = request.responseText;
@@ -71,6 +79,12 @@
             }
         }
 
+        function random_state()
+        {
+            var array    = document.getElementsByName('windowState');
+            var rand_num = Math.floor((Math.random()*3));
+            array[rand_num].checked = true;
+        }
         </script>
         
 

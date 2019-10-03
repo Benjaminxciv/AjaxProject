@@ -1,16 +1,19 @@
-Cell1
+
 closed
-8:00
+08:05
+0:30
 Cell2
 closed
-9:00
+09:00
 Cell3
-closed
-10:00
-Cell4
+open__
+locked
+
+ll4
 closed
 11:00
 Cell5
-12:00
-open
+closed
+00:00
+
 

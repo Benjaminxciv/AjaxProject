@@ -4,7 +4,6 @@
 $state         = $_REQUEST["state"];
 $cell_num      = $_REQUEST["cell_num"];
 $time          = strtotime($_REQUEST['time']);
-
 $i_cell_num    = ((int)$cell_num - 1); 
 $linestop      = (($i_cell_num * 3)+1);
 $alarm_state   = "off";
@@ -18,17 +17,20 @@ else
   echo "invalid date";
 }
 
+
+$myfile = fopen("doorstate.txt", "r+") or die("Unable to open file!");
+
+  
+
 //Handle case of closed and unlocked for more than 5 minutes - replace with function if time
 if($state === "closed")
 {
-  $myfile = fopen("doorstate.txt", "r") or die("Unable to open file!");
-
   for($x = 0; $x < $linestop; $x++)
   {
-    fgets($myfile);
+   $line = fgets($myfile);
   }
-  
-  $prev_state = chop(fgets($myfile));
+
+  $prev_state = chop(fgets($myfile)); 
   
   if($prev_state === "closed")
     {
@@ -41,16 +43,16 @@ if($state === "closed")
         $alarm_state = "on";
       }
     }
-    fclose($myfile); 
+   //fclose($myfile); 
 }
 
 //Start of handling times doors are allowed to be open ..Only needed if state is open - replace with function if time
-if($state == "open");
+if($state == "open__");
 {
 $open_times = array("8:30", "9:00", "12:00","13:00","18:00","19:00");
 $array_length = count($open_times);
 
-if($state == "open")
+if($state == "open__")
   {
     for($x = 0; $x < $array_length; $x+=2)
     {  
@@ -67,16 +69,18 @@ if($state == "open")
   }
 }
 
-print $alarm_state;
-
-  // $fp = fopen("doorstate.txt", "r+") or die("Unable to open file!");
+  print $alarm_state;
   
-  // for($x = 0; $x < $linestop; $x++) 
-  // {
-  //   fgets($myfile);
-  // }
+  rewind($myfile);
 
-  // fwrite($fp,"test");  
+  for($x = 0; $x < $linestop; $x++)
+  {
+    $line = fgets($myfile);
+  }
 
-  // fclose($fp);
+  fwrite($myfile,$state."\n");
+  fwrite($myfile,$curr_time."\n");
+  fclose($myfile);
+
+  
 ?>
