@@ -5,12 +5,13 @@
         <title> Very Scary Prison Inc.</title>
         <meta charset = "UTF-8">
         <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="custom.css">
+
 
     </head>
     <body>
 
-        <div><h1 class='heading'>Very Scary Prison Inc. Security Center</h1></div>
-        <hr>
+        <div><h1 class='heading'>Very Scary Prison Monitoring</h1></div>
         <nav><b>
             <a href="index.html">Home</a>&nbsp;
             <a href="doorsensor.html">Door Monitor</a>&nbsp;
@@ -21,8 +22,7 @@
 
         <h2> Window Sensor Interface </h2>
         <form action = "window_server.php">
-            Select Window State 
-            <br>
+            <p>Select Window State</p> 
             <input type="radio" name ="windowState" value = "locked" checked> Locked  <br>
             <input type="radio" name ="windowState" value = "closed" > Closed & Unlocked  <br> 
             <input type="radio" name ="windowState" value = "open" > Open <br> <br> 
@@ -32,8 +32,7 @@
             <br><br> 
             <hr>
             <br>            
-            Select Prison Cell
-            <br>
+            <p>Select Prison Cell</p>
             <input type = "radio" name = "cell" value = "1" checked> Cell 1 <br>
             <input type = "radio" name = "cell" value = "2"> Cell 2 <br>
             <input type = "radio" name = "cell" value = "3"> Cell 3 <br>

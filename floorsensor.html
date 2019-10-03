@@ -5,12 +5,13 @@
         <title> Very Scary Prison Inc.</title>
         <meta charset = "UTF-8">
         <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="custom.css">
+
 
     </head>
     <body>
 
-        <div><h1 class='heading'>Very Scary Prison Inc. Security Center</h1></div>
-        <hr>
+        <div><h1 class='heading'>Very Scary Prison Monitoring</h1></div>
         <nav><b>
             <a href="index.html">Home</a>&nbsp;
             <a href="doorsensor.html">Door Monitor</a>&nbsp;
@@ -21,8 +22,7 @@
         
         <h2> Floor Sensor Interface </h2>
         <form action = "floor_server.php">
-            Choose floor weight
-            <br>
+            <p>Choose floor weight</p>  
             <input type="range" name="input_weight" min="0.00" max="400.00" onchange="updateTextInput(this.value);"> 
             <br>
             <input type="text" id="input_text" value="">
@@ -31,8 +31,7 @@
                     Random weight generator
             </button> 
             <br><br>
-            Select Prison Cell
-            <br>
+            <p>Select Prison Cell</p>
            <input type = "radio" name = "cell" value = "1" checked> Cell 1 <br>
            <input type = "radio" name = "cell" value = "2"> Cell 2 <br>
            <input type = "radio" name = "cell" value = "3"> Cell 3 <br>

@@ -1,0 +1,24 @@
+
+body {
+    background-color: #858585;
+  }
+  
+h1 {
+    color: white;
+    font-family: "Lucida Console", Monaco, monospace;
+}
+
+ h2, h3, h4, h5, h6 {
+  
+  font-family: "Lucida Console", Monaco, monospace;
+}
+
+
+p, div {
+   font-family:  "Lucida Console", Monaco, monospace;
+   font-weight: bold;
+}
+
+hr {
+	border-top: 3px dashed black;
+}
