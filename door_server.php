@@ -67,10 +67,7 @@ if($state == "open__")
         }else $alarm_state = "on";
     }
   }
-}
-
-  print $alarm_state;
-  
+}  
   rewind($myfile);
 
   for($x = 0; $x < $linestop; $x++)
@@ -82,5 +79,6 @@ if($state == "open__")
   fwrite($myfile,$curr_time."\n");
   fclose($myfile);
 
+  print $alarm_state.$state;
   
 ?>

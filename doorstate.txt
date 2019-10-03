@@ -1,12 +1,12 @@
 
-closed
-08:05
+open__
+08:39
 0:30
 Cell2
 closed
 09:00
-Cell3
-open__
+closed
+00:45
 locked
 
 ll4

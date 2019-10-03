@@ -1,6 +1,8 @@
 
 <?php 
   
+  $alarm_state = "off";
+
   $input_weight = $_REQUEST["input_weight"];
   //echo $input_weight;
   $f_input_weight = (float) $input_weight;
@@ -14,10 +16,11 @@
  if($difference > 2){
    $alarm_state = "on";
  }
- else $alarm_state = "off";
+ 
   
 
- print $alarm_state;
+ print $alarm_state.$input_weight;
+
     // print "<p>The floor state: $alarm_state</p> ";
     // print "Current weight: $f_inputWeight"
 ?>

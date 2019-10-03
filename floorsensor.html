@@ -43,11 +43,9 @@
            </button> <br>
          </form>
          <br><br><br><hr>
-         <p id="floorStatus1"> This is the part that is updated </p>
-         <p id="floorStatus2"> This is the part that is updated </p>
-         <p id="floorStatus3"> This is the part that is updated </p>
-         <p id="floorStatus4"> This is the part that is updated </p>
-         <p id="floorStatus5"> This is the part that is updated </p>
+         <h2> Floor Sensor Status</h2>
+         <p id="floorStatus1"> Alarm Status </p>
+         
          <script>
          
         function send_floor_state(theform) {
@@ -60,15 +58,19 @@
             request.send();
         } 
 
-        function floor_callback(theform) {
-
-            if (request.status == 200) {
-                
-                if(request.responseText.trim() == 'on')
+        function floor_callback(theform) 
+        {
+                var message         = request.responseText.trim();
+                var alarm_state     = message.substring(0, 2);
+                var sensor_status   = message.substring(3);
+                if (request.status == 200) 
+                {
+                    if(alarm_state == 'on')
                     {
-                    alert("Warning. The Alarm is on in Cell "+theform.cell.value);
+                        sensor_status = message.substring(2)
+                        alert("Warning. The Alarm is on in Cell "+theform.cell.value);
                      }
-                document.getElementById("floorStatus1").innerHTML = request.responseText;
+                document.getElementById("floorStatus1").innerHTML = sensor_status+" lbs";
                 document.getElementById("floorStatus1").style.font = "italic bold 20px arial,serif";
             }
 

@@ -52,11 +52,8 @@
 
           
       <br><br><br><hr>
+      <h2>Door Sensor Status</h2>
       <p id="doorStatus1"> This is the part that is updated </p>
-      <p id="doorStatus2"> This is the part that is updated </p>
-      <p id="doorStatus3"> This is the part that is updated </p>
-      <p id="doorStatus4"> This is the part that is updated </p>
-      <p id="doorStatus5"> This is the part that is updated </p>
 
       <script type = "text/javascript"> 
 
@@ -74,16 +71,19 @@
         } 
         
         function door_callback(theform)
-        {
-            if (request.status == 200)
-            {
-               
-                if(request.responseText.trim() == 'on')
+        {       
+                var message = request.responseText.trim();
+                var alarm_state = message.substring(0, 2);
+                var sensor_status = message.substring(3)
+
+                if (request.status == 200) {
+                    if(alarm_state.trim() == 'on')
                     {
-                    alert("Warning. The Alarm is on in Cell "+theform.cell.value);
+                        sensor_status = message.substring(2)
+                        alert("Warning. The Alarm is on in Cell "+theform.cell.value);
                      }
 
-              document.getElementById("doorStatus1").innerHTML = request.responseText;
+              document.getElementById("doorStatus1").innerHTML = sensor_status;
               document.getElementById("doorStatus1").style.font = "italic bold 20px arial,serif";
             }
 

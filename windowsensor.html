@@ -42,14 +42,11 @@
             <button type = "button"  onclick = "send_window_state(this.form)">
                         Upload to Server
             </button> <br>
-          </form>
-          <br><br><br><hr>
-          <p id="windowStatus1"> This is the part that is updated </p>
-          <p id="windowStatus2"> This is the part that is updated </p>
-          <p id="windowStatus3"> This is the part that is updated </p>
-          <p id="windowStatus4"> This is the part that is updated </p>
-          <p id="windowStatus5"> This is the part that is updated </p>
-        <script>
+             <br><br><br><hr>
+             <h2> Current Sensor State </h2>
+            <p id="windowStatus1"> This is the part that is updated </p>
+        </form>
+      <script>
         
             function send_window_state(theform) {
                 request = new XMLHttpRequest();
@@ -63,13 +60,18 @@
 
             function window_callback(theform) {
                 
+                var message         = request.responseText.trim();
+                var alarm_state     = message.substring(0, 2);
+                var sensor_status   = message.substring(3)
+
                 if (request.status == 200) {
-                    if(request.responseText.trim() == 'on')
+                    if(alarm_state.trim() == 'on')
                     {
-                    alert("Warning. The Alarm is on in Cell "+theform.cell.value);
+                        sensor_status = message.substring(2)
+                        alert("Warning. The Alarm is on in Cell "+theform.cell.value);
                      }
                      
-                document.getElementById("windowStatus1").innerHTML = request.responseText;
+                document.getElementById("windowStatus1").innerHTML = sensor_status;
                 document.getElementById("windowStatus1").style.font = "italic bold 20px arial,serif";
             }
 

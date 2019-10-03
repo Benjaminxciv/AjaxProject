@@ -10,6 +10,6 @@
     $alarm_state = "on";
   }
   
-  print $alarm_state;
+  print $alarm_state.$state;
 
 ?> 
