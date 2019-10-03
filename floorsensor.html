@@ -1,16 +1,13 @@
 <html>
 
     <head>
-
         <title> Very Scary Prison Inc.</title>
         <meta charset = "UTF-8">
         <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="custom.css">
-
-
     </head>
-    <body>
 
+    <body>
         <div><h1 class='heading'>Very Scary Prison Monitoring</h1></div>
         <nav><b>
             <a href="index.html">Home</a>&nbsp;
@@ -19,7 +16,7 @@
             <a href="windowsensor.html">Window Monitor</a>&nbsp;
         </b></nav>
         <hr>
-        
+
         <h2> Floor Sensor Interface </h2>
         <form action = "floor_server.php">
             <p>Choose floor weight</p>  
@@ -32,37 +29,50 @@
             </button> 
             <br><br>
             <p>Select Prison Cell</p>
-           <input type = "radio" name = "cell" value = "1" checked> Cell 1 <br>
-           <input type = "radio" name = "cell" value = "2"> Cell 2 <br>
-           <input type = "radio" name = "cell" value = "3"> Cell 3 <br>
-           <input type = "radio" name = "cell" value = "4"> Cell 4 <br>
-           <input type = "radio" name = "cell" value = "5"> Cell 5
-           <br><br>
-           <button type = "button"  onclick = "send_floor_state(this.form)">
+            <input type = "radio" name = "cell" value = "1" checked> Cell 1 <br>
+            <input type = "radio" name = "cell" value = "2"> Cell 2 <br>
+            <input type = "radio" name = "cell" value = "3"> Cell 3 <br>
+            <input type = "radio" name = "cell" value = "4"> Cell 4 <br>
+            <input type = "radio" name = "cell" value = "5"> Cell 5
+            <br><br>
+            <button type = "button"  onclick = "send_floor_state(this.form)">
                Upload to Server
-           </button> <br>
+            </button> <br>
          </form>
-         <br><br><br><hr>
+
+         <br><br><br>
+         <hr>
          <h2> Floor Sensor Status</h2>
-         <p id="floorStatus1"> Alarm Status </p>
+         <p id="floorStatus1"> State </p>
          
-         <script>
-         
-        function send_floor_state(theform) {
+         <script type = "text/javascript">
+             
+            //Name: send_floor_state
+            //function:Updates floor server with current floor sensor states
+            //param: theform
+                //Desc: A html form where floor sensor states are entered
+            function send_floor_state(theform) 
+            {
                 request = new XMLHttpRequest();
                 request.open("GET","floor_server.php?input_weight="+theform.input_text.value+"&cellNum="+theform.cell.value);    
-    
-                request.onload = function () {
+
+                request.onload = function () 
+                {
                     floor_callback(theform); 
                 }
-            request.send();
-        } 
+                request.send();
+            } 
 
-        function floor_callback(theform) 
-        {
+            //Name: floor_callback
+            //Function:callback function: handles response sent from floor server
+            //param: theform
+                //Desc: a html form where floor sensor states are entered
+            function floor_callback(theform) 
+            {
                 var message         = request.responseText.trim();
                 var alarm_state     = message.substring(0, 2);
                 var sensor_status   = message.substring(3);
+
                 if (request.status == 200) 
                 {
                     if(alarm_state == 'on')
@@ -70,28 +80,33 @@
                         sensor_status = message.substring(2)
                         alert("Warning. The Alarm is on in Cell "+theform.cell.value);
                      }
-                document.getElementById("floorStatus1").innerHTML = sensor_status+" lbs";
-                document.getElementById("floorStatus1").style.font = "italic bold 20px arial,serif";
-            }
+                    document.getElementById("floorStatus1").innerHTML = sensor_status+" lbs";
+                    document.getElementById("floorStatus1").style.font = "italic bold 20px arial,serif";
+                }
 
-            else if (request.status=404) {
+                else if (request.status=404) 
+                {
                 alert("Server was not found: data returned is :\n"+request.responseText);
+                }
             }
-        }
 
+            //Name: random_weight_generator
+            //Function: Generates a random number between 0 - 400 and updates a text box with the number
+            function random_weight_generator() 
+            {
+                var precision = 100; // 2 decimals
+                var random_num = Math.floor(Math.random() * (400 * precision - 1 * precision) + 0 * precision) / (1*precision);
+                random_num = random_num.toString();
+                updateTextInput(random_num)
+            }
+            
+            //Comment
+            function updateTextInput(val) 
+            {
+                document.getElementById('input_text').value=val; 
+            }
         
-        function random_weight_generator() {
-            var precision = 100; // 2 decimals
-            var random_num = Math.floor(Math.random() * (400 * precision - 1 * precision) + 0 * precision) / (1*precision);
-            random_num = random_num.toString();
-            updateTextInput(random_num)
-        }
-        
-        function updateTextInput(val) {
-          document.getElementById('input_text').value=val; 
-        }
-        
-         </script>
+        </script>
 
     </body>
 

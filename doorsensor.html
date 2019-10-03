@@ -1,15 +1,13 @@
 <html>
 
     <head>
-
         <title> Very Scary Prison Inc.</title>
         <meta charset = "UTF-8">
         <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="custom.css">
-
     </head>
-    <body>
 
+    <body>
         <div><h1 class='heading'>Very Scary Prison Monitoring</h1></div>
         <nav><b>
             <a href="index.html">Home</a>&nbsp;
@@ -21,91 +19,96 @@
 
         <h2> Door Sensor Interface </h2>
         <form action = "door_server.php" 
-        method = "get">
-        Select Time 
-        <input type = "time" name = "current_time" >
-        <br><br>
-       <p> Select Door State </p>  
-        <input type="radio" name ="doorState" value = "locked"> Locked  <br>
-        <input type="radio" name ="doorState" value = "closed" > Closed & Unlocked  <br> 
-        <input type="radio" name ="doorState" value = "open__" > Open 
-        <br>
-        <br>
-        <button type = "button" onclick="random_state()">
+            method = "get">
+            Select Time 
+            <input type = "time" name = "current_time" >
+            <br><br>
+            <p> Select Door State </p>  
+            <input type="radio" name ="doorState" value = "locked"> Locked  <br>
+            <input type="radio" name ="doorState" value = "closed" > Closed & Unlocked  <br> 
+            <input type="radio" name ="doorState" value = "open__" > Open 
+            <br>
+            <br>
+            <button type = "button" onclick="rand_door_state()">
                 Random Door State
-        </button> 
-        <br>
-        <br>
-        <hr> 
-        <br>
-        <p>Select Prison Cell</p>
-        <input type = "radio" name = "cell" value = "1" checked> Cell 1 <br>
-        <input type = "radio" name = "cell" value = "2"> Cell 2 <br>
-        <input type = "radio" name = "cell" value = "3"> Cell 3 <br>
-        <input type = "radio" name = "cell" value = "4"> Cell 4 <br>
-        <input type = "radio" name = "cell" value = "5"> Cell 5
-        <br><br>
-        <button type = "button"  onclick = "send_door_state(this.form)">
-            Upload to Server
-        </button>
-      </form>
+            </button> 
+            <br>
+            <br>
+            <hr> 
+            <br>
+            <p>Select Prison Cell</p>
+            <input type = "radio" name = "cell" value = "1" checked> Cell 1 <br>
+            <input type = "radio" name = "cell" value = "2"> Cell 2 <br>
+            <input type = "radio" name = "cell" value = "3"> Cell 3 <br>
+            <input type = "radio" name = "cell" value = "4"> Cell 4 <br>
+            <input type = "radio" name = "cell" value = "5"> Cell 5
+            <br><br>
+            <button type = "button"  onclick = "send_door_state(this.form)">
+                Upload to Server
+            </button>
+        </form>
 
-          
-      <br><br><br><hr>
-      <h2>Door Sensor Status</h2>
-      <p id="doorStatus1"> This is the part that is updated </p>
+        <br><br><br>
+        <hr>
+        <h2>Door Sensor Status</h2>
+        <p id="doorStatus1"> State </p>
 
-      <script type = "text/javascript"> 
+        <script type = "text/javascript"> 
 
-        function send_door_state(theform) 
-        {    
-            request = new XMLHttpRequest();
-            request.open("GET","door_server.php?state="+theform.doorState.value+"&time="+theform.current_time.value+"&cell_num="+theform.cell.value);
+            //Name: send_door_state
+            //function:Updates door server with current door sensor states
+            //param: theform
+                //Desc: A html form where door sensor states are entered
+            function send_door_state(theform) 
+            {    
+                request = new XMLHttpRequest();
+                request.open("GET","door_server.php?state="+theform.doorState.value+"&time="+theform.current_time.value+"&cell_num="+theform.cell.value);
             
-            request.onload = function () 
-            {
-                door_callback(theform);
-            }
+                request.onload = function () 
+                {
+                    door_callback(theform);
+                }
 
-            request.send();
-        } 
+                request.send();
+            } 
         
-        function door_callback(theform)
-        {       
+            //Name: window_callback
+            //Function:callback function: handles response message sent from window server
+            //param: theform
+                //Desc: a html form where window sensor states are entered
+            function door_callback(theform)
+            {       
                 var message = request.responseText.trim();
                 var alarm_state = message.substring(0, 2);
                 var sensor_status = message.substring(3)
 
-                if (request.status == 200) {
-                    if(alarm_state.trim() == 'on')
-                    {
-                        sensor_status = message.substring(2)
-                        alert("Warning. The Alarm is on in Cell "+theform.cell.value);
-                     }
+                    if (request.status == 200) {
+                        if(alarm_state.trim() == 'on')
+                        {
+                            sensor_status = message.substring(2)
+                            alert("Warning. The Alarm is on in Cell "+theform.cell.value);
+                        }
 
-              document.getElementById("doorStatus1").innerHTML = sensor_status;
-              document.getElementById("doorStatus1").style.font = "italic bold 20px arial,serif";
+                document.getElementById("doorStatus1").innerHTML = sensor_status;
+                document.getElementById("doorStatus1").style.font = "italic bold 20px arial,serif";
+                }
+
+                else if (request.status=404) {
+                alert("Server was not found: data returned is :\n"+request.responseText);
+                }
             }
 
-            else if (request.status=404) {
-              alert("Server was not found: data returned is :\n"+request.responseText);
+            //Name: rand_door_state
+            //Function: Generates a random number between 1 and 3 and checks corresponding door state radio button
+            function rand_door_state()
+            {
+                var array    = document.getElementsByName('doorState');
+                var rand_num = Math.floor((Math.random()*3));
+                array[rand_num].checked = true;
             }
-        }
-
-       
-        function random_state()
-        {
-            var array    = document.getElementsByName('doorState');
-            var rand_num = Math.floor((Math.random()*3));
-            array[rand_num].checked = true;
-        }
-
-
 
         </script>
 
     </body>
-
-    
 
 </html>
