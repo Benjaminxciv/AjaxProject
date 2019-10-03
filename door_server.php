@@ -83,6 +83,6 @@
     
 
     $log = fopen("doorlog.txt", "a") or die("Unable to open file!"); 
-    fwrite($log,"Cell ".$cell_num." - ".$curr_time." - ".$state."- Alarm State: ".$alarm_state."\n");
+    fwrite($log,"Cell ".$cell_num." - ".$curr_time." - State: ".$state." - Alarm State: ".$alarm_state."\n");
     fclose($log);
 ?>

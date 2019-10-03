@@ -1,6 +1,0 @@
-Cell 1 - 08:00 - closed- Alarm State: off
-Cell 1 - 08:30 - closed- Alarm State: on
-Cell 1 - 08:30 - locked- Alarm State: off
-Cell 1 - 08:30 - open__- Alarm State: off
-Cell 1 - 09:30 - open__- Alarm State: on
-Cell 3 - 01:30 - closed- Alarm State: on
