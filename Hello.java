@@ -18,6 +18,7 @@ import javax.json.JsonArray;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 
@@ -32,16 +33,23 @@ public class Hello {
    * 
   */
   @Get
+  @Path("/A")
   @Consumes(MediaType.TEXT_PLAIN)
-  public void populateData(char ping)
+  public String populateData(char ping)
   {
 
       FileReader reader = new FileReader("petDB.json");
       Object obj = jsonParser.parse(reader);
+      String petData;
 
       JSONArray petList = (JSONArray) obj;
 
+      for (JsonObject pet : petList) {
+        petData.append("type: " + petList.getString("type")+ "\n");
+        petData.append("name: " + petlist.getString("name") + "\n\n");
+      }
 
+      return petData;
   }
   // called when request sends a PUT with JSON data  
   @PUT
@@ -67,7 +75,6 @@ public class Hello {
     // called when request sends a POST with JSON Pet data
     // and will return a response to confirm the file was received
    @POST
-   @Path("/pet")
    @Consumes(MediaType.APPLICATION_JSON)
    public Response received_Pet_Posting(String msg)
    {
@@ -79,6 +86,10 @@ public class Hello {
 
         JSONArray petList = (JSONArray) obj;
         JsonObject jsonObj = new JsonObject(msg);
+        petList.add(jsonObj);
+        FileWriter file = new FileWriter("petDB.json");
+        file.write(petList.toJSONString());
+        file.flush();
 
       }
       else
