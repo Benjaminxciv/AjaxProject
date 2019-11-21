@@ -25,7 +25,7 @@ public class Pet {
 
     }
     //overloaded constructor
-    public Pet(JsonObject obj)
+    public Pet(JSONObject obj)
     {
 
         type = obj.getString("type");
@@ -100,14 +100,14 @@ public class Pet {
 
     }
 
-    public JsonObject toJsonObject()
+    public JSONObject toJSONObject()
     {
 
-        JsonObject obj = new JsonObject();
+        JSONObject obj = new JSONObject();
         obj.setString("type", type);
         obj.setString("name", name);
         obj.setString("disease", disease);
-        JsonArray<String> myJsonArr = new JsonArray();
+        JSONArray<String> myJsonArr = new JSONArray();
         for (String string : vaccinations) {
             myJsonArr.append(string);
         }
