@@ -1,0 +1,38 @@
+{
+	"Pets":
+	[
+		{
+
+			"type": "Cat",
+			"name": "Fluffy", 
+			"disease": "upper respiratory infection", 
+			"vaccinations": ["rabies", "feline", "leukemia"], 
+			"owner": "Agnes Gru", 
+			"amountOwed": 0
+
+		},
+
+		{
+
+			"type": "Cat",
+			"name": "Stinker",
+			"disease": "bites, cuts (cat fight?)",
+			"vaccinations": ["rabies"],
+			"owner": "Big Jim Walker",
+			"amountOwed": 500
+
+		},
+
+		{
+			
+			"type": "Dog",
+			"name": "Clifford",
+			"disease": "Kennel Cough",
+			"vaccinations": ["rabies", "distemper", "parvo"],
+			"owner": "Emily Elizabeth Howard",
+			"amountOwed": 20
+
+		}
+	]
+}
+
