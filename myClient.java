@@ -5,9 +5,9 @@ import java.io.*;
 import javax.ws.rs.core.Response;  
 import javax.ws.rs.core.MediaType;  
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonArray;
+import org.json.simple.jsonParser;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
 
 import java.util.ArrayList;
 
@@ -56,7 +56,7 @@ public class myClient {
           else if (message.equals("O")  )  // info one at a time
           {
 
-            JsonObject petInfo = new JsonObject();
+            JSONObject petInfo = new JSONObject();
             String type;
             String name;
             String disease;

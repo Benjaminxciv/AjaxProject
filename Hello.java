@@ -12,9 +12,10 @@ import javax.ws.rs.core.MediaType;
 import Pet.java;
 import jdk.nashorn.internal.objects.annotations.Getter;  
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonArray;
+
+import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.jsonParser;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -44,7 +45,7 @@ public class Hello {
 
       JSONArray petList = (JSONArray) obj;
 
-      for (JsonObject pet : petList) {
+      for (JSONObject pet : petList) {
         petData.append("type: " + petList.getString("type")+ "\n");
         petData.append("name: " + petlist.getString("name") + "\n\n");
       }
@@ -85,7 +86,7 @@ public class Hello {
         Object obj = jsonParser.parse(reader);
 
         JSONArray petList = (JSONArray) obj;
-        JsonObject jsonObj = new JsonObject(msg);
+        JSONObject jsonObj = new JSONObject(msg);
         petList.add(jsonObj);
         FileWriter file = new FileWriter("petDB.json");
         file.write(petList.toJSONString());
